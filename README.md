@@ -1,10 +1,10 @@
-FindX - Búsqueda Rápida en VS Code
+# FindX - Búsqueda Rápida en VS Code
 
 ![logo](./assets/logo.png)  
 
 FindX es una extensión para VS Code que te permite buscar palabras dentro de todos los archivos de tu proyecto de manera rápida y eficiente.
 
-🔹 Características  
+### 🔹 Características  
 
 
 ✅ Busca en archivos de código y texto (.js, .py, .html, .json, etc.).  
@@ -15,7 +15,7 @@ FindX es una extensión para VS Code que te permite buscar palabras dentro de to
 
 
 
-🔹 Uso  
+### 🔹 Uso  
 
 ejecuta Buscar palabra en todos los archivos desde la paleta de comandos (Ctrl + Shift + P).  
 
@@ -24,15 +24,19 @@ Escribe la palabra que deseas buscar y presiona Enter.
 Se mostrarán los archivos y líneas donde se encontró la palabra.  
 
 
+
+
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
-FindX - Fast Search in VS Code  
+
+
+# FindX - Fast Search in VS Code  
 
 
 FindX is a VS Code extension that allows you to quickly and efficiently search for words within all the files in your project.
 
-🔹 Features  
+### 🔹 Features  
 
 ✅ Search in code and text files (.js, .py, .html, .json, etc.).  
 
@@ -41,7 +45,7 @@ FindX is a VS Code extension that allows you to quickly and efficiently search f
 ✅ Displays the files where the word is found along with the line number.  
 
 
-🔹 Usage  
+### 🔹 Usage  
 
 Run Search word in all files from the command palette (Ctrl + Shift + P).  
 
