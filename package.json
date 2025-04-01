@@ -6,22 +6,26 @@
   "engines": {
     "vscode": "^1.98.0"
   },
+  "publisher": "breynerustariz",
   "categories": [
     "Other"
   ],
   "main": "./extension.js",
+  "icon": "assets/logo.png",
+  "activationEvents": [
+    "onCommand:extension.searchWord"
+  ],
   "contributes": {
     "commands": [
       {
         "command": "extension.searchWord",
-        "title": "Buscar palabra en todos los archivos"
+        "title": "Search word in all files"
       }
     ],
     "keybindings": [
       {
         "command": "extension.searchWord",
-        "key": "ctrl+alt+f",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+f"
       }
     ]
   },
