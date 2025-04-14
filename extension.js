@@ -9,13 +9,16 @@ const FILE_EXTENSIONS = [
   '.yml', '.xml', '.sh', '.bat', '.sql', '.ini'
 ];
 
+let globalSelectedExtensions = FILE_EXTENSIONS;
+
 const IGNORED_FOLDERS = ['node_modules', '.git', 'dist', 'build', 'vendor', '__pycache__'];
 
 function getLocalizedText(lang, messages) {
   return messages[lang] || messages['en'];
 }
 
-async function searchInFiles(dir, word, results, caseInsensitive, dateFilter) {
+async function searchInFiles(dir, word, results, caseInsensitive, dateFilter, selectedExtensions) {
+  
   try {
     const files = await fs.promises.readdir(dir);
     await Promise.all(
@@ -29,8 +32,9 @@ async function searchInFiles(dir, word, results, caseInsensitive, dateFilter) {
         }
 
         if (stat.isDirectory() && !IGNORED_FOLDERS.includes(file)) {
-          await searchInFiles(fullPath, word, results, caseInsensitive, dateFilter);
-        } else if (FILE_EXTENSIONS.some(ext => fullPath.endsWith(ext))) {
+          await searchInFiles(fullPath, word, results, caseInsensitive, dateFilter, selectedExtensions);
+        } else if (selectedExtensions.some(ext => fullPath.endsWith(ext))) {
+
           if (dateFilter && new Date(stat.mtime).getTime() < Date.now() - dateFilter) {
             return;
           }
@@ -77,6 +81,26 @@ async function activate(context) {
       en: 'Enter the word to search',
       es: 'Ingrese la palabra a buscar'
     }) });
+
+    const extensionChoices = await vscode.window.showQuickPick(
+      FILE_EXTENSIONS,
+      {
+        canPickMany: true,
+        placeHolder: getLocalizedText(lang, {
+          en: 'Select file extensions to include in the search',
+          es: 'Seleccione las extensiones de archivo para incluir en la búsqueda'
+        })
+      }
+    );
+    
+    if (!extensionChoices || extensionChoices.length === 0) {
+      vscode.window.showInformationMessage(getLocalizedText(lang, {
+        en: 'No file extensions selected.',
+        es: 'No se seleccionaron extensiones de archivo.'
+      }));
+      return;
+    }
+    
     if (!word) {
       vscode.window.showInformationMessage(getLocalizedText(lang, {
         en: 'No word entered.',
@@ -127,7 +151,7 @@ async function activate(context) {
     const folderPath = workspaceFolders[0].uri.fsPath;
     const results = [];
 
-    await searchInFiles(folderPath, word, results, caseInsensitive, dateFilter);
+    await searchInFiles(folderPath, word, results, caseInsensitive, dateFilter, extensionChoices);
     searchingMessage.dispose();
 
     if (results.length === 0) {
